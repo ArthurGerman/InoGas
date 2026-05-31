@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Leitura extends Model
+{
+    
+    use HasFactory;
+
+    protected $fillable = ['gas_id', 'valor', 'status'];
+
+    public function gas()
+    {
+        return $this->belongsTo(Gas::class);
+    }
+}
