@@ -13,7 +13,7 @@ class LeituraController extends Controller
     public function index()
     {
         return response()->json(
-            Leitura::with('gas')->get()
+            Leitura::all()
         );
     }
 
@@ -31,7 +31,6 @@ class LeituraController extends Controller
     public function store(Request $request)
     {
         $dados = $request->validate([
-            'gas_id' => 'required|exists:gases,id',
             'valor' => 'required|numeric',
             'status' => 'required|string|max:100'
         ]);
@@ -46,7 +45,7 @@ class LeituraController extends Controller
      */
     public function show(string $id)
     {
-        $leitura = Leitura::with('gas')->findOrFail($id);
+        $leitura = Leitura::findOrFail($id);
 
         return response()->json($leitura);
     }
@@ -62,19 +61,9 @@ class LeituraController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(string $id)
     {
-        $leitura = Leitura::findOrFail($id);
-
-        $dados = $request->validate([
-            'gas_id' => 'sometimes|exists:gases,id',
-            'valor' => 'sometimes|numeric',
-            'status' => 'sometimes|string|max:100'
-        ]);
-
-        $leitura->update($dados);
-
-        return response()->json($leitura);
+        //
     }
 
     /**

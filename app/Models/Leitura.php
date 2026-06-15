@@ -10,10 +10,6 @@ class Leitura extends Model
     
     use HasFactory;
 
-    protected $fillable = ['gas_id', 'valor', 'status'];
+    protected $fillable = ['valor', 'status'];
 
-    public function gas()
-    {
-        return $this->belongsTo(Gas::class);
-    }
 }

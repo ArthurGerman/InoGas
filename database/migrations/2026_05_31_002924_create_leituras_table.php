@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('leituras', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('gas_id')->constrained();
             $table->integer('valor');
             $table->string('status');
             $table->timestamps();
