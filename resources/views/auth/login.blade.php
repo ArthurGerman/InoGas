@@ -61,6 +61,18 @@
                             Insira suas credenciais para acessar a plataforma.
                         </p>
 
+                        @if(session('erro'))
+                            <div class="mt-10 p-3 rounded-lg bg-red-100 text-red-700">
+                                {{ session('erro') }}
+                            </div>
+                        @endif
+
+                        @if(session('sucesso'))
+                            <div class="mt-10 p-3 rounded-lg bg-green-100 text-green-700">
+                                {{ session('sucesso') }}
+                            </div>
+                        @endif
+
                         <form
                             method="POST"
                             action="{{ route('login') }}"
@@ -100,6 +112,12 @@
                                         class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 outline-none"
                                     >
 
+                                    @error('email')
+                                        <p class="text-red-500 text-sm mt-1">
+                                            {{ $message }}
+                                        </p>
+                                    @enderror
+
                                 </div>
 
                             </div>
@@ -120,33 +138,14 @@
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700 outline-none"
                                 >
 
+                                @error('password')
+                                    <p class="text-red-500 text-sm mt-1">
+                                        {{ $message }}
+                                    </p>
+                                @enderror
+                                
                             </div>
 
-                            <div
-                                class="flex items-center justify-between text-sm"
-                            >
-
-                                <label class="flex items-center gap-2">
-
-                                    <input
-                                        type="checkbox"
-                                        class="rounded border-gray-300"
-                                    >
-
-                                    <span class="text-gray-600">
-                                        Lembrar credenciais
-                                    </span>
-
-                                </label>
-
-                                <a
-                                    href="#"
-                                    class="text-emerald-700 hover:text-emerald-800"
-                                >
-                                    Esqueci minha senha
-                                </a>
-
-                            </div>
 
                             <button
                                 type="submit"

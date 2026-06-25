@@ -31,10 +31,14 @@
     <!-- Sidebar -->
     <aside class="w-72 bg-white border-r flex flex-col">
 
-        <div class="p-6 border-b">
+        <div class="p-6 border-b flex items-center">
+
+            <span class="text-3xl">
+                🌿
+            </span>
 
             <h1 class="text-4xl font-bold text-emerald-950">
-                Sensor MQ2-001
+                InoGas
             </h1>
 
         </div>
@@ -46,7 +50,7 @@
                 <li>
                     <a href="#"
                        class="flex items-center gap-3 bg-emerald-950 text-white px-4 py-3 rounded-lg">
-                        📊 Painel
+                            Painel
                     </a>
                 </li>
 
@@ -54,7 +58,7 @@
                 <li>
                     <a href="#"
                        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100">
-                        📈 Relatórios
+                            Relatórios
                     </a>
                 </li>
 
@@ -62,14 +66,14 @@
 
         </nav>
 
-        <div class="p-4">
+        <!--<div class="p-4">
 
             <button
                 class="w-full bg-emerald-950 text-white py-3 rounded-lg hover:bg-emerald-900">
                 Exportar Relatório
             </button>
 
-        </div>
+        </div>-->
 
     </aside>
 
@@ -82,12 +86,8 @@
 
             <div class="flex items-center gap-3">
 
-                <span class="text-3xl">
-                    🌿
-                </span>
-
                 <h1 class="text-3xl font-bold text-emerald-950">
-                    InoGas
+                    Sensor MQ-2
                 </h1>
 
             </div>
@@ -140,7 +140,7 @@
 
                     <h3
                         id="status"
-                        class="text-3xl font-bold mt-3">
+                        class="text-4xl font-bold text-emerald-950 mt-3">
                         Sem dados
                     </h3>
 
