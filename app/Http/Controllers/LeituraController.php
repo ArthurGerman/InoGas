@@ -35,6 +35,10 @@ class LeituraController extends Controller
             'status' => 'required|string|max:100'
         ]);
 
+        if ($dados['valor'] <= 200) {
+            return response()->json(['mensagem' => 'Sem alerta de gás'], 204);
+        }
+
         $leitura = Leitura::create($dados);
 
         return response()->json($leitura, 201);

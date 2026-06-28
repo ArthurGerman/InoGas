@@ -48,15 +48,21 @@
             <ul class="space-y-2">
 
                 <li>
-                    <a href="#"
+                    <a href=""
                        class="flex items-center gap-3 bg-emerald-950 text-white px-4 py-3 rounded-lg">
                             Painel
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{ route('historico') }}"
+                       class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100">
+                            Histórico de alertas
+                    </a>
+                </li>
 
                 <li>
-                    <a href="#"
+                    <a href=""
                        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100">
                             Relatórios
                     </a>
@@ -104,12 +110,12 @@
 
         </header>
 
-        <div class="p-8">
+        <div class="p-10">
 
             <!-- Título -->
             <div class="mb-6">
 
-                <h2 class="text-4xl font-bold text-emerald-950">
+                <h2 class="text-5xl font-bold text-emerald-950">
                     Painel Principal
                 </h2>
 

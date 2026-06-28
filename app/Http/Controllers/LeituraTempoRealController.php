@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Leitura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -17,18 +18,48 @@ class LeituraTempoRealController extends Controller
             'status' => 'required|string|max:100'
         ]);
 
-        Cache::put(
-            'leitura_atual',
-            [
-                'valor' => $dados['valor'],
-                'status' => $dados['status'],
-                'hora' => now()->format('H:i:s')
-            ]
-        );
+        $hora = now()->format('H:i:s');
 
-        return response()->json([
-            'mensagem' => 'Leitura atualizada'
+        Cache::put('leitura_atual', [
+            'valor' => $dados['valor'],
+            'status' => $dados['status'],
+            'hora' => $hora
         ]);
+
+        $alerta = Cache::get('alerta_ativo', [
+            'ativo' => false,
+            'valor_maximo' => 0,
+            'status_maximo' => $dados['status'],
+            'hora_maximo' => $hora
+        ]);
+
+        if ($dados['valor'] > 200) {
+            if (! $alerta['ativo']) {
+                $alerta = [
+                    'ativo' => true,
+                    'valor_maximo' => $dados['valor'],
+                    'status_maximo' => $dados['status'],
+                    'hora_maximo' => $hora
+                ];
+            } elseif ($dados['valor'] > $alerta['valor_maximo']) {
+                $alerta['valor_maximo'] = $dados['valor'];
+                $alerta['status_maximo'] = $dados['status'];
+                $alerta['hora_maximo'] = $hora;
+            }
+
+            Cache::put('alerta_ativo', $alerta);
+        } else {
+            if ($alerta['ativo']) {
+                Leitura::create([
+                    'valor' => $alerta['valor_maximo'],
+                    'status' => $alerta['status_maximo'],
+                ]);
+
+                Cache::forget('alerta_ativo');
+            }
+        }
+
+        return response()->json(['mensagem' => 'Leitura atualizada']);
     }
 
     /**
