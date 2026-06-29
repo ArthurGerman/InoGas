@@ -7,6 +7,10 @@ use App\Http\Controllers\LeituraTempoRealController;
 
 Route::apiResource('leituras', LeituraController::class);
 
+Route::get(
+    '/relatorio',
+    [LeituraController::class, 'relatorio']
+);
 
 Route::post(
     '/leitura-atual',

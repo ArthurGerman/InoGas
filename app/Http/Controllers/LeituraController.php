@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Leitura;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class LeituraController extends Controller
 {
@@ -83,4 +85,70 @@ class LeituraController extends Controller
             'mensagem' => 'Leitura removida com sucesso'
         ]);
     }
+
+    /**
+     * Get aggregated report data by period
+     */
+    public function relatorio(Request $request)
+    {
+        $periodo = $request->query('periodo', 'dia');
+        $query = Leitura::query();
+        
+        $formato_data = '%H:%i'; // padrão: hora:minuto
+        $label_periodo = '';
+
+        switch ($periodo) {
+            case 'hora':
+                // Últimas 60 minutos, agrupadas por minuto
+                $query->where('created_at', '>=', Carbon::now()->subHours(1));
+                $formato_data = '%H:%i';
+                $label_periodo = 'Minuto';
+                break;
+
+            case 'dia':
+                // Últimas 24 horas, agrupadas por hora
+                $query->where('created_at', '>=', Carbon::now()->subHours(24));
+                $formato_data = '%d/%m %H:%i';
+                $label_periodo = 'Hora';
+                break;
+
+            case 'semana':
+                // Última semana, agrupadas por dia
+                $query->where('created_at', '>=', Carbon::now()->subDays(7));
+                $formato_data = '%d/%m';
+                $label_periodo = 'Dia';
+                break;
+
+            case 'mes':
+                // Último mês, agrupadas por dia
+                $query->where('created_at', '>=', Carbon::now()->subDays(30));
+                $formato_data = '%d/%m';
+                $label_periodo = 'Dia';
+                break;
+
+            case 'ano':
+                // Último ano, agrupadas por mês
+                $query->where('created_at', '>=', Carbon::now()->subYear());
+                $formato_data = '%m/%Y';
+                $label_periodo = 'Mês';
+                break;
+
+            default:
+                $query->where('created_at', '>=', Carbon::now()->subHours(24));
+                $formato_data = '%d/%m %H:%i';
+                $label_periodo = 'Hora';
+        }
+
+        // Agrupar dados e calcular média
+        $dados = $query
+            ->selectRaw("DATE_FORMAT(created_at, ?) as periodo", [$formato_data])
+            ->selectRaw('AVG(valor) as valor')
+            ->groupByRaw("DATE_FORMAT(created_at, ?)", [$formato_data])
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->toArray();
+
+        return response()->json($dados);
+    }
 }
+
