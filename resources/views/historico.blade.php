@@ -47,7 +47,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('relatorios') }}"
+                    <a href="{{ route('relatorio') }}"
                        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100">
                             Relatórios
                     </a>

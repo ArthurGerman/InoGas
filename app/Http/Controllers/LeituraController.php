@@ -141,12 +141,21 @@ class LeituraController extends Controller
 
         // Agrupar dados e calcular média
         $dados = $query
+            ->selectRaw("DATE_FORMAT(created_at, '$formato_data') as periodo")
+            ->selectRaw('AVG(valor) as valor')
+            ->selectRaw('MIN(created_at) as min_created')
+            ->groupByRaw("DATE_FORMAT(created_at, '$formato_data')")
+            ->orderBy('min_created', 'asc')
+            ->get()
+            ->toArray();
+            /*
             ->selectRaw("DATE_FORMAT(created_at, ?) as periodo", [$formato_data])
             ->selectRaw('AVG(valor) as valor')
             ->groupByRaw("DATE_FORMAT(created_at, ?)", [$formato_data])
             ->orderBy('created_at', 'asc')
             ->get()
             ->toArray();
+            */
 
         return response()->json($dados);
     }

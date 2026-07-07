@@ -217,7 +217,7 @@ const chart = new Chart(
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: 500,
+                    max: 1000,
                     ticks: {
                         callback: function(value) {
                             return value + ' PPM';

@@ -50,15 +50,15 @@ Route::get('/historico', function (Request $request) {
 
 
 // Rota para relatórios
-Route::get('/relatorios', function () {
+Route::get('/relatorio', function () {
 
     if (!session()->has('usuario_id')) {
         return redirect('/login');
     }
 
-    return view('relatorios');
+    return view('relatorio');
 
-})->name('relatorios');
+})->name('relatorio');
 
 
 
