@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\HistoricoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\Leitura;
@@ -19,32 +20,8 @@ Route::post('/logout', [UsuarioController::class, 'logout'])->name('logout');
 
 
 
-// Rota para histórico de alertas
-Route::get('/historico', function (Request $request) {
-    if (!session()->has('usuario_id')) {
-        return redirect('/login');
-    }
-
-    $query = Leitura::where('valor', '>', 200);
-
-    if ($request->filled('inicio')) {
-        $query->whereDate('created_at', '>=', $request->input('inicio'));
-    }
-
-    if ($request->filled('fim')) {
-        $query->whereDate('created_at', '<=', $request->input('fim'));
-    }
-
-    $alertas = $query
-        ->orderBy('created_at', 'desc')
-        ->paginate(10)
-        ->withQueryString();
-
-    return view('historico', compact('alertas'));
-})->name('historico');
-
-
-
+Route::get('/historico', [HistoricoController::class, 'historico'])->name('historico'); // Rota para histórico de alertas
+Route::get('/historico/export', [HistoricoController::class, 'export'])->name('historico.export'); // Rota para exportar histórico de alertas
 
 
 

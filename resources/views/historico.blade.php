@@ -178,12 +178,9 @@
 
                     </h3>
 
-                    <button
-                        class="border px-5 py-2 rounded-lg hover:bg-gray-100">
-
+                    <a href="{{ route('historico.export') }}@if(request()->getQueryString())?{{ request()->getQueryString() }}@endif" class="border px-5 py-2 rounded-lg hover:bg-gray-100">
                         Exportar PDF
-
-                    </button>
+                    </a>
 
                 </div>
 
