@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InoGas Dashboard</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         @keyframes piscar {
@@ -192,97 +190,6 @@
     </main>
 
 </div>
-
-<script>
-
-const labels = [];
-const valores = [];
-
-const chart = new Chart(
-    document.getElementById('grafico'),
-    {
-        type: 'line',
-        data: {
-            labels,
-            datasets: [{
-                label: 'Concentração de Gás',
-                data: valores,
-                borderColor: '#22c55e',
-                backgroundColor: 'rgba(34,197,94,.15)',
-                tension: 0.35,
-                fill: true
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
-        }
-    }
-);
-
-async function atualizarPainel() {
-
-    const resposta =
-        await fetch('/api/leitura-atual');
-
-    const leitura =
-        await resposta.json();
-
-    document.getElementById('valor')
-        .innerText = leitura.valor;
-
-    document.getElementById('status')
-        .innerText = leitura.status;
-
-    document.getElementById('hora')
-        .innerText = leitura.hora;
-
-
-    // Atualizar status de alerta
-    const alertaSpan = document.getElementById('alerta-status');
-    
-    if(leitura.valor > 500) {
-        alertaSpan.innerText = 'ALERTA DE GÁS';
-        alertaSpan.className = 'px-4 py-2 rounded-full bg-red-100 text-red-800 text-sm font-medium alerta-ativo';
-
-    } else if(leitura.valor > 200) {
-        alertaSpan.innerText = 'ALERTA DE GÁS';
-        alertaSpan.className = 'px-4 py-2 rounded-full bg-yellow-100 text-yellow-800 text-sm font-medium alerta-ativo';
-    }
-    
-    else {
-        alertaSpan.innerText = 'AMBIENTE LIMPO';
-        alertaSpan.className = 'px-4 py-2 rounded-full bg-blue-100 text-blue-800 text-sm font-medium';
-    }
-    
-
-
-    labels.push(leitura.hora);
-    valores.push(leitura.valor);
-
-    if(labels.length > 20){
-
-        labels.shift();
-        valores.shift();
-
-    }
-
-    chart.update();
-
-}
-
-atualizarPainel();
-
-setInterval(
-    atualizarPainel,
-    1000
-);
-
-</script>
 
 </body>
 </html>
