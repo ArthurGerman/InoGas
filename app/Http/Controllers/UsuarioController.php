@@ -50,9 +50,14 @@ class UsuarioController extends Controller
 
         if ($usuario && Hash::check($request->password, $usuario->password)) {
 
+            if (isset($usuario->ativo) && ! $usuario->ativo) {
+                return back()->with('erro', 'Esta conta está desativada. Fale com o responsável.');
+            }
+
             session([
                 'usuario_id' => $usuario->id,
-                'usuario_name' => $usuario->name
+                'usuario_name' => $usuario->name,
+                'usuario_papel' => $usuario->papel ?? 'responsavel'
             ]);
 
             return redirect('/painel');

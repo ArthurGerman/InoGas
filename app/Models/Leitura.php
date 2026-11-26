@@ -10,6 +10,6 @@ class Leitura extends Model
     
     use HasFactory;
 
-    protected $fillable = ['valor', 'status'];
+    protected $fillable = ['valor', 'status', 'dispositivo_id'];
 
 }

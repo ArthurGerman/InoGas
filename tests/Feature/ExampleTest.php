@@ -14,6 +14,21 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertStatus(200);
+        $response->assertRedirect('/login');
+    }
+
+    public function test_legacy_reports_route_redirects_logged_in_users_to_history(): void
+    {
+        config(['session.driver' => 'array']);
+
+        $this->withoutMiddleware(\App\Http\Middleware\SincronizaConta::class)
+            ->withSession(['usuario_id' => 1])
+            ->get('/relatorios')
+            ->assertRedirect('/historico');
+    }
+
+    public function test_legacy_reports_route_requires_login(): void
+    {
+        $this->get('/relatorios')->assertRedirect('/login');
     }
 }
